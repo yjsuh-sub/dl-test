@@ -37,15 +37,15 @@ model = Sequential()
 
 # strong overfitting >> regularizer 수 약간 늘리거나 dropout 비율 늘리기
 # Learning rate이 낮음. 높이는게 좋을 듯..? >> adadelta 공부
-model.add(Conv2D(64, (5, 5), activation='relu', input_shape=(48, 48, 1), padding='same', kernel_regularizer=l2(0.0002)))
+model.add(Conv2D(64, (5, 5), activation='relu', input_shape=(48, 48, 1), padding='same', kernel_regularizer=l2(0.001)))
 model.add(Conv2D(64, (5, 5), activation='relu', padding='same'))
 model.add(MaxPooling2D())
-model.add(Dropout(0.2))
-
-model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.0002)))
-model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.0002)))
-model.add(MaxPooling2D())
 model.add(Dropout(0.3))
+
+model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.001)))
+model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.001)))
+model.add(MaxPooling2D())
+model.add(Dropout(0.4))
 
 #model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.0002)))
 #model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.0002)))
@@ -58,8 +58,8 @@ model.add(Dropout(0.3))
 #model.add(Dropout(0.5))
 
 model.add(Flatten())
-model.add(Dense(128, activation='relu', kernel_regularizer=l2(0.0001)))
-model.add(Dropout(0.4))
+model.add(Dense(128, activation='relu', kernel_regularizer=l2(0.001)))
+model.add(Dropout(0.5))
 model.add(Dense(7, activation='softmax'))
 
 opt = optimizers.Adadelta()
@@ -69,7 +69,7 @@ ct = time()
 hist = model.fit(X_train, Y_train, epochs=40, batch_size=100, validation_data=(X_test, Y_test), verbose=2)
 print('Wall time:', time() - ct)
 
-model.save('fer2013_7.hdf5')
+model.save('fer2013_8.hdf5')
 
 plt.figure(figsize=(8, 15))
 plt.subplot(211)
@@ -85,4 +85,4 @@ plt.tight_layout()
 plt.show()
 
 #last: 0.86/0.62
-#learning rate은 적당하고 overfitting만 증가시켜야 할 듯 ㅣ2인상
+#learning rate은 적당하고 overfitting만 증가시켜야 할 듯 인상

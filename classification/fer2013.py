@@ -22,10 +22,10 @@ y_test = np.array(df_test.iloc[:, 0])
 Y_train = np_utils.to_categorical(y_train, 7)
 Y_test = np_utils.to_categorical(y_test, 7)
 
-#print(X_train.shape, X_train.dtype)
-#print(y_train.shape, y_train.dtype, y_train[:3])
-#print(X_test.shape, X_test.dtype)
-#print(y_test.shape, y_test.dtype)
+print(X_train.shape, X_train.dtype)
+print(y_train.shape, y_train.dtype, y_train[:3])
+print(X_test.shape, X_test.dtype)
+print(y_test.shape, y_test.dtype)
 
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
@@ -37,28 +37,28 @@ model = Sequential()
 
 # strong overfitting >> regularizer 수 약간 늘리거나 dropout 비율 늘리기
 # Learning rate이 낮음. 높이는게 좋을 듯..? >> adadelta 공부
-model.add(Conv2D(64, (5, 5), activation='relu', input_shape=(48, 48, 1), padding='same', kernel_regularizer=l2(0.001)))
+model.add(Conv2D(64, (5, 5), activation='relu', input_shape=(48, 48, 1), padding='same', kernel_regularizer=l2(0.005)))
 model.add(Conv2D(64, (5, 5), activation='relu', padding='same'))
 model.add(MaxPooling2D())
 model.add(Dropout(0.3))
 
-model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.001)))
-model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.001)))
+model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.005)))
+model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.005)))
 model.add(MaxPooling2D())
 model.add(Dropout(0.4))
 
-#model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.0002)))
-#model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.0002)))
-#model.add(MaxPooling2D())
-#model.add(Dropout(0.4))
+model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.0002)))
+model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.0002)))
+model.add(MaxPooling2D())
+model.add(Dropout(0.4))
 
-#model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.0002)))
-#model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.0002)))
-#model.add(MaxPooling2D())
-#model.add(Dropout(0.5))
+model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.0002)))
+model.add(Conv2D(64, (5, 5), activation='relu', padding='same', kernel_regularizer=l2(0.0002)))
+model.add(MaxPooling2D())
+model.add(Dropout(0.5))
 
 model.add(Flatten())
-model.add(Dense(128, activation='relu', kernel_regularizer=l2(0.001)))
+model.add(Dense(128, activation='relu', kernel_regularizer=l2(0.004)))
 model.add(Dropout(0.5))
 model.add(Dense(7, activation='softmax'))
 
@@ -66,10 +66,10 @@ opt = optimizers.Adadelta()
 model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
 ct = time()
-hist = model.fit(X_train, Y_train, epochs=40, batch_size=100, validation_data=(X_test, Y_test), verbose=2)
+hist = model.fit(X_train, Y_train, epochs=80, batch_size=200, validation_data=(X_test, Y_test), verbose=2)
 print('Wall time:', time() - ct)
 
-model.save('fer2013_8.hdf5')
+model.save('fer2013_10.hdf5')
 
 plt.figure(figsize=(8, 15))
 plt.subplot(211)

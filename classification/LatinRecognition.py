@@ -20,7 +20,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.25)
 X_train = X_train.astype('float32')
 X_test = X_test.astype('float32')
 
-dict = {'trial' : 6,
+dic = {'trial' : 6,
 'layer_num' : 64,
 'layer_size' : 16,
 'dense_layer_num' : 128,
@@ -39,22 +39,11 @@ dict = {'trial' : 6,
 'overall_layers': 12,
         }
 
-trial = dict['trial']
-layer_num = dict['layer_num']
-layer_size = dict['layer_size']
-dense_layer_num = dict['dense_layer_num']
-input_shape = dict['input_shape']
-output_num = dict['output_num']
-ratio_dropout = dict['ratio_dropout']
-reg = dict['reg']
-opt_name = dict['opt_name']
-loss = dict['loss']
-metric = dict['metric']
-activation = dict['activation']
-layer_name = dict['layer_name']
-epoch = dict['epoch']
-min_batch = dict['min_batch']
-init_data = dict['init_data']
+for key in dic.keys():
+    if type(dic[key]) == str:
+        exec('%s="%s"' % (key, dic[key]))
+    else:
+        exec('%s=%s' % (key, dic[key]))
 
 Y_train = np_utils.to_categorical(y_train, output_num)
 Y_test = np_utils.to_categorical(y_test, output_num)
@@ -90,7 +79,7 @@ t = (time() - ct)
 
 model.save('Latin_%s.hdf5'%trial)
 
-trial_record(hist, dict=dict, ttime=t)
+trial_record(hist, dic=dic, ttime=t)
 
 savefigure(hist, save_plot=True, trial=trial)
 

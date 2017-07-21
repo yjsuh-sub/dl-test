@@ -19,29 +19,12 @@ dict_init = {'trial' : 4,
              'overall_layers' : 12
         }
 
-def trial_record(hist, dict=dict_init, print_option=True, ttime='Unknown'):
+def trial_record(hist, dic=dict_init, print_option=True, ttime='Unknown'):
     for key in dict_init.keys():
-        if key not in dict.keys():
-            dict[key] = dict_init[key]
-    file_name = dict['file_name']
-    path = dict['path']
-    trial = dict['trial']
-    layer_num = dict['layer_num']
-    layer_size = dict['layer_size']
-    dense_layer_num = dict['dense_layer_num']
-    input_shape = dict['input_shape']
-    output_num = dict['output_num']
-    ratio_dropout = dict['ratio_dropout']
-    reg = dict['reg']
-    opt_name = dict['opt_name']
-    loss = dict['loss']
-    metric = dict['metric']
-    activation = dict['activation']
-    layer_name = dict['layer_name']
-    epoch = dict['epoch']
-    min_batch = dict['min_batch']
-    init_data = dict['init_data']
-    total_layers=dict['overall_layers']
+        if key not in dic.keys():
+            dic[key] = dict_init[key]
+        exec('%s="%s"'%(key, dic[key]), globals())
+    print(trial)
     data = '''
     ###################################
     Trial_{0}
@@ -65,7 +48,7 @@ def trial_record(hist, dict=dict_init, print_option=True, ttime='Unknown'):
 
             '''.format(trial, hist.history['acc'][-1], hist.history['val_acc'][-1], layer_num, dense_layer_num,
                        ratio_dropout, layer_size, input_shape, output_num, reg, opt_name, loss, metric, activation,
-                       layer_name[0], layer_name[1], epoch, min_batch, total_layers, ttime)
+                       layer_name[0], layer_name[1], epoch, min_batch, overall_layers, ttime)
     if print_option: print(data)
 
     try:
@@ -106,13 +89,16 @@ def savefigure(hist, save_plot=True, trial=0, file_name='Latin_', path=''):
     elif save_plot:
         savefig('{1}{0}.png'.format(file_name, path))
 
-if __name__ == __main__:
+if __name__ == "__main__":
     info = """
     List of functions
-    - trial_record(hist, dict=dict_init, print_option=True, ttime='Unknown')
+    
+    - trial_record(hist, dic=dict_init, print_option=True, ttime='Unknown')
+        
         Saving record of deep learning results 
+        
         hist: keras' deep learning History object which gets returned by the fit method of models.
-        dict: Dictionary object which stores keras' deep learning setting. Followings is example and initial value of it.
+        dic: Dictionary object which stores keras' deep learning setting. Followings is example and initial value of it.
         dict_init = {'trial' : 4,
                  'file_name':'Latin.txt',
                  'path': '',
@@ -159,8 +145,11 @@ if __name__ == __main__:
         Number of epochs = 30
         Batch size = 50
         ###################################
+        
     - savefigure(hist, save_plot=True, trial=4, file_name='Latin_', path='')
+    
         Show graphs of loss function for each epochs and accuracy of train and test data for each epochs 
+        
         hist: keras' deep learning History object which gets returned by the fit method of models.
         save_plot: option whether save or not.
         trial: set the number of trial to file name. Optional.

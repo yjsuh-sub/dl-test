@@ -11,5 +11,6 @@
 * fer2013.py - Emotion recognition using fer2013 dataset
 
 ## References
-* https://datascienceschool.net/
-* https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge/data
+* Lectures about machine learning and deep learning: https://datascienceschool.net/
+* fer2013 dataset: https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge/data
+* A Latin Character Database: http://www.cs.huji.ac.il/~fink/downloads/Latin.zip

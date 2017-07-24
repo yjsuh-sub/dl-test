@@ -23,8 +23,11 @@ def trial_record(hist, dic=dict_init, print_option=True, ttime='Unknown'):
     for key in dict_init.keys():
         if key not in dic.keys():
             dic[key] = dict_init[key]
-        exec('%s="%s"'%(key, dic[key]), globals())
-    print(trial)
+        if type(dic[key]) == str:
+            exec('%s="%s"' % (key, dic[key]), globals())
+        else:
+            exec('%s=%s' % (key, dic[key]), globals())
+
     data = '''
     ###################################
     Trial_{0}

@@ -3,10 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-#ignore txt, png, hdf5 extensions
+#ignore txt, png, hdf5, npy extensions
 *.txt
 *.png
 *.hdf5
+*.npy
 
 # C extensions
 *.so

@@ -8,7 +8,7 @@ __pycache__/
 *.png
 *.hdf5
 *.npy
-*.idea/*
+*.idea/*.xml
 
 # C extensions
 *.so
